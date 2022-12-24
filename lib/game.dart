@@ -1,37 +1,37 @@
 import 'dart:math';
 
-// ignore_for_file: avoid_print
-
-import 'dart:math';
-
-// enumeration
-enum GuessResult {
-  correct, tooHigh, tooLow
+enum Result {
+  tooHigh, tooLow, correct
 }
 
 class Game {
-  final int answer = Random().nextInt(100) + 1;
-  int _totalGuesses = 0;
+  static const defaultMaxRandom = 100;
+  int? answer;
+  int _guessCount = 0;
+  static final List<int> guessCountList = [];
 
-  // constructor
-  Game() {
-    print('Answer is $answer');
+  Game({int maxRandom = defaultMaxRandom}) {
+    var r = Random();
+    answer = r.nextInt(maxRandom) + 1;
+    //print('The answer is $answer');
   }
 
-  GuessResult doGuess(int guess) {
-    _totalGuesses++;
+  int get guessCount {
+    return _guessCount;
+  }
 
-    if (guess == answer) {
-      return GuessResult.correct;
-    } else if (guess > answer) {
-      return GuessResult.tooHigh;
+  void addCountList() {
+    guessCountList.add(_guessCount);
+  }
+
+  Result doGuess(int num) {
+    _guessCount++;
+    if (num > answer!) {
+      return Result.tooHigh;
+    } else if (num < answer!) {
+      return Result.tooLow;
     } else {
-      return GuessResult.tooLow;
+      return Result.correct;
     }
-  }
-
-  // getter
-  int get totalGuesses {
-    return _totalGuesses;
   }
 }
